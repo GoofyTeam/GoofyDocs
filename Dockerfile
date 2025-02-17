@@ -14,4 +14,5 @@ COPY --from=build /app/target/GoofyFiles-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+WORKDIR /source
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.jvmArguments=-XX:TieredStopAtLevel=1"]
