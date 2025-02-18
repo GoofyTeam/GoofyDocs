@@ -1,10 +1,10 @@
-package com.goofy.GoofyFiles;
+package com.goofy.GoofyDocs;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GoofyFilesApplicationTests {
+class GoofyDocsApplicationTests {
 
 	@Test
 	void contextLoads() {

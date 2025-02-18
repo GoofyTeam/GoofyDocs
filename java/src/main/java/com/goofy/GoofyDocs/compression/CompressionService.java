@@ -1,4 +1,4 @@
-package com.goofy.GoofyFiles.compression;
+package com.goofy.GoofyDocs.compression;
 
 import org.springframework.stereotype.Service;
 import org.xerial.snappy.Snappy;

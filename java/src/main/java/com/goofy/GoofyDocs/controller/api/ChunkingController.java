@@ -1,4 +1,4 @@
-package com.goofy.GoofyFiles.controller.api;
+package com.goofy.GoofyDocs.controller.api;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.goofy.GoofyFiles.chunking.Chunk;
-import com.goofy.GoofyFiles.chunking.ChunkingService;
+import com.goofy.GoofyDocs.chunking.Chunk;
+import com.goofy.GoofyDocs.chunking.ChunkingService;
 
 @RestController
 @RequestMapping("api/chunking")

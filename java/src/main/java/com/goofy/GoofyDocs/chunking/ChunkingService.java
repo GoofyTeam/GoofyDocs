@@ -1,4 +1,4 @@
-package com.goofy.GoofyFiles.chunking;
+package com.goofy.GoofyDocs.chunking;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

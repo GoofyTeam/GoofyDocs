@@ -15,7 +15,7 @@ compile:
 
 update:
 	docker-compose exec app mvn clean package -f /source/pom.xml && \
-	docker-compose exec app cp /source/target/GoofyFiles-0.0.1-SNAPSHOT.jar /app/app.jar && \
+	docker-compose exec app cp /source/target/GoofyDocs-0.0.1-SNAPSHOT.jar /app/app.jar && \
 	docker-compose restart app
 
 # Exécuter les tests de performance

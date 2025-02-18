@@ -1,6 +1,6 @@
-# GoofyFiles
+# GoofyDocs
 
-**GoofyFiles** est un projet Java (Spring Boot) visant à implémenter un système de découpage intelligent de fichiers.  
+**GoofyDocs** est un projet Java (Spring Boot) visant à implémenter un système de découpage intelligent de fichiers.  
 Les objectifs du projet sont :
 
 - Découper dynamiquement les fichiers (Content-Defined Chunking avec Rabin Fingerprinting)
@@ -44,7 +44,7 @@ Les objectifs du projet sont :
 
 1. **Construire et lancer les conteneurs :**
 
-   - Depuis la racine du projet (`GoofyFiles`), exécute :
+   - Depuis la racine du projet (`GoofyDocs`), exécute :
      ```bash
      docker-compose up --build -d
      ```
