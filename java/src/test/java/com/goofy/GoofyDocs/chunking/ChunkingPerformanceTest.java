@@ -1,4 +1,4 @@
-package com.goofy.GoofyFiles.chunking;
+package com.goofy.GoofyDocs.chunking;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +13,9 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
+
+import com.goofy.GoofyDocs.chunking.Chunk;
+import com.goofy.GoofyDocs.chunking.ChunkingService;
 
 public class ChunkingPerformanceTest {
 

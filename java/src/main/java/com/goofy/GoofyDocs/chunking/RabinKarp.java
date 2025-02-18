@@ -1,4 +1,4 @@
-package com.goofy.GoofyFiles.chunking;
+package com.goofy.GoofyDocs.chunking;
 
 import org.rabinfingerprint.fingerprint.RabinFingerprintLong;
 import org.rabinfingerprint.polynomial.Polynomial;
