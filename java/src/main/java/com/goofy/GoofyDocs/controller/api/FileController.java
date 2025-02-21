@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.goofy.GoofyDocs.model.FileEntity;
 import com.goofy.GoofyDocs.repository.FileRepository;
-import com.goofy.GoofyDocs.service.FileReconstructionService;
+import com.goofy.GoofyDocs.service.FileReconstructorService;
 
 @RestController
 @RequestMapping("api/files")
 public class FileController {
 
-    private final FileReconstructionService fileReconstructionService;
+    private final FileReconstructorService fileReconstructorService;
     private final FileRepository fileRepository;
 
     @Autowired
-    public FileController(FileReconstructionService fileReconstructionService, FileRepository fileRepository) {
-        this.fileReconstructionService = fileReconstructionService;
+    public FileController(FileReconstructorService fileReconstructorService, FileRepository fileRepository) {
+        this.fileReconstructorService = fileReconstructorService;
         this.fileRepository = fileRepository;
     }
 
@@ -35,7 +35,7 @@ public class FileController {
             FileEntity fileEntity = fileRepository.findById(fileId)
                     .orElseThrow(() -> new IllegalArgumentException("File not found: " + fileId));
 
-            byte[] fileContent = fileReconstructionService.reconstructFile(fileId);
+            byte[] fileContent = fileReconstructorService.reconstructFile(fileId);
 
             String fileName = fileEntity.getName();
             if (fileEntity.getExtension() != null && !fileEntity.getExtension().isEmpty()) {
@@ -50,7 +50,7 @@ public class FileController {
             return ResponseEntity.notFound().build();
         } catch (IOException e) {
             return ResponseEntity.internalServerError()
-                    .body("Error during file reconstruction: " + e.getMessage());
+                    .body("Error during file Reconstructor: " + e.getMessage());
         }
     }
 }

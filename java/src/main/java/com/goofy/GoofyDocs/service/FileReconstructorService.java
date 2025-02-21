@@ -17,15 +17,15 @@ import com.goofy.GoofyDocs.repository.FileChunkRepository;
 import com.goofy.GoofyDocs.repository.FileRepository;
 
 @Service
-public class FileReconstructionService {
-    private static final Logger logger = LoggerFactory.getLogger(FileReconstructionService.class);
+public class FileReconstructorService {
+    private static final Logger logger = LoggerFactory.getLogger(FileReconstructorService.class);
 
     private final FileRepository fileRepository;
     private final FileChunkRepository fileChunkRepository;
     private final CompressionService compressionService;
 
     @Autowired
-    public FileReconstructionService(
+    public FileReconstructorService(
             FileRepository fileRepository,
             FileChunkRepository fileChunkRepository,
             CompressionService compressionService) {

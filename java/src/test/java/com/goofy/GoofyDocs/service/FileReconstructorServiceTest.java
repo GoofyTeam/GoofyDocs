@@ -1,11 +1,5 @@
 package com.goofy.GoofyDocs.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -14,10 +8,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.util.StopWatch;
 
@@ -28,7 +27,7 @@ import com.goofy.GoofyDocs.model.FileEntity;
 import com.goofy.GoofyDocs.repository.FileChunkRepository;
 import com.goofy.GoofyDocs.repository.FileRepository;
 
-class FileReconstructionServiceTest {
+class FileReconstructorServiceTest {
 
     @Mock
     private FileRepository fileRepository;
@@ -39,21 +38,21 @@ class FileReconstructionServiceTest {
     @Mock
     private CompressionService compressionService;
 
-    private FileReconstructionService service;
+    private FileReconstructorService service;
 
     private static final int[] FILE_SIZES = { 1, 10, 50, 100 };
     private static final String[] FILE_TYPES = { "text", "binary", "mixed" };
     private static final int[] CHUNK_SIZES = { 1024, 4096, 16384 };
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
-        service = new FileReconstructionService(fileRepository, fileChunkRepository, compressionService);
+        service = new FileReconstructorService(fileRepository, fileChunkRepository, compressionService);
     }
 
     @Test
-    void testReconstructionPerformanceDashboard(@TempDir Path tempDir) throws IOException {
-        System.out.println("\n=== File Reconstruction Performance Dashboard ===");
+    void testReconstructorPerformanceDashboard(@TempDir Path tempDir) throws IOException {
+        System.out.println("\n=== File Reconstructor Performance Dashboard ===");
         System.out.println("Format: Type | File Size | Chunk Size | Total Time | Speed | Chunks/s");
         System.out.println("------------------------------------------------------------------------");
 
@@ -101,17 +100,24 @@ class FileReconstructionServiceTest {
 
         data.originalData = new byte[size];
         Random random = new Random();
-        if ("text".equals(type)) {
-            for (int i = 0; i < size; i++) {
-                data.originalData[i] = (byte) ((i % 26) + 'a');
-            }
-        } else if ("binary".equals(type)) {
-            random.nextBytes(data.originalData);
-        } else {
+        if (null == type) {
             for (int i = 0; i < size; i++) {
                 data.originalData[i] = (byte) (i % 256);
             }
-        }
+        } else
+            switch (type) {
+                case "text" -> {
+                    for (int i = 0; i < size; i++) {
+                        data.originalData[i] = (byte) ((i % 26) + 'a');
+                    }
+                }
+                case "binary" -> random.nextBytes(data.originalData);
+                default -> {
+                    for (int i = 0; i < size; i++) {
+                        data.originalData[i] = (byte) (i % 256);
+                    }
+                }
+            }
 
         data.fileEntity = new FileEntity();
         data.fileEntity.setId(random.nextLong());
@@ -222,9 +228,10 @@ class FileReconstructionServiceTest {
         Long fileId = 999L;
         when(fileRepository.findById(fileId)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             service.reconstructFile(fileId);
         });
+        assertNotNull(exception);
     }
 
     @Test
@@ -236,8 +243,9 @@ class FileReconstructionServiceTest {
         when(fileRepository.findById(fileId)).thenReturn(Optional.of(fileEntity));
         when(fileChunkRepository.findByFileIdOrderByPosition(fileId)).thenReturn(List.of());
 
-        assertThrows(IllegalStateException.class, () -> {
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
             service.reconstructFile(fileId);
         });
+        assertNotNull(exception);
     }
 }

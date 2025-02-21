@@ -93,17 +93,19 @@ public class DuplicationService {
   private String calculateHash(byte[] data, HashingAlgorithm algorithm) {
     try {
       switch (algorithm) {
-        case SHA1:
-          return Hashing.sha1().hashBytes(data).toString();
-        case SHA256:
+        case SHA1 -> {
+          return Hashing.hmacSha1("key".getBytes()).hashBytes(data).toString();
+        }
+        case SHA256 -> {
           return Hashing.sha256().hashBytes(data).toString();
-        case BLAKE3:
+        }
+        case BLAKE3 -> {
           byte[] hashBytes = Blake3.hash(data);
           return Hex.encodeHexString(hashBytes);
-        default:
-          throw new IllegalArgumentException("Unsupported hashing algorithm: " + algorithm);
+        }
+        default -> throw new IllegalArgumentException("Unsupported hashing algorithm: " + algorithm);
       }
-    } catch (Exception e) {
+    } catch (IllegalArgumentException | UnsupportedOperationException e) {
       throw new RuntimeException("Error while calculating hash", e);
     }
   }
@@ -145,19 +147,12 @@ public class DuplicationService {
       String hash = calculateHash(chunk.getData(), algorithm);
 
       Optional<ChunkEntity> existingChunk;
-      switch (algorithm) {
-        case SHA1:
-          existingChunk = chunkRepository.findByHashSha1(hash);
-          break;
-        case SHA256:
-          existingChunk = chunkRepository.findByHashSha256(hash);
-          break;
-        case BLAKE3:
-          existingChunk = chunkRepository.findByHashBlake3(hash);
-          break;
-        default:
-          existingChunk = Optional.empty();
-      }
+      existingChunk = switch (algorithm) {
+        case SHA1 -> chunkRepository.findByHashSha1(hash);
+        case SHA256 -> chunkRepository.findByHashSha256(hash);
+        case BLAKE3 -> chunkRepository.findByHashBlake3(hash);
+        default -> Optional.empty();
+      };
 
       ChunkEntity chunkEntity;
       if (existingChunk.isPresent()) {
@@ -170,15 +165,9 @@ public class DuplicationService {
         chunkEntity.setData(chunk.getData());
 
         switch (algorithm) {
-          case SHA1:
-            chunkEntity.setHashSha1(hash);
-            break;
-          case SHA256:
-            chunkEntity.setHashSha256(hash);
-            break;
-          case BLAKE3:
-            chunkEntity.setHashBlake3(hash);
-            break;
+          case SHA1 -> chunkEntity.setHashSha1(hash);
+          case SHA256 -> chunkEntity.setHashSha256(hash);
+          case BLAKE3 -> chunkEntity.setHashBlake3(hash);
         }
 
         chunkEntity = chunkRepository.save(chunkEntity);
@@ -250,19 +239,12 @@ public class DuplicationService {
       String hash = calculateHash(chunk.getData(), algorithm);
 
       Optional<ChunkEntity> existingChunk;
-      switch (algorithm) {
-        case SHA1:
-          existingChunk = chunkRepository.findByHashSha1(hash);
-          break;
-        case SHA256:
-          existingChunk = chunkRepository.findByHashSha256(hash);
-          break;
-        case BLAKE3:
-          existingChunk = chunkRepository.findByHashBlake3(hash);
-          break;
-        default:
-          existingChunk = Optional.empty();
-      }
+      existingChunk = switch (algorithm) {
+        case SHA1 -> chunkRepository.findByHashSha1(hash);
+        case SHA256 -> chunkRepository.findByHashSha256(hash);
+        case BLAKE3 -> chunkRepository.findByHashBlake3(hash);
+        default -> Optional.empty();
+      };
 
       ChunkEntity chunkEntity;
       if (existingChunk.isPresent()) {
@@ -279,15 +261,9 @@ public class DuplicationService {
         chunkEntity.setCompressionType(compressionType.name());
 
         switch (algorithm) {
-          case SHA1:
-            chunkEntity.setHashSha1(hash);
-            break;
-          case SHA256:
-            chunkEntity.setHashSha256(hash);
-            break;
-          case BLAKE3:
-            chunkEntity.setHashBlake3(hash);
-            break;
+          case SHA1 -> chunkEntity.setHashSha1(hash);
+          case SHA256 -> chunkEntity.setHashSha256(hash);
+          case BLAKE3 -> chunkEntity.setHashBlake3(hash);
         }
 
         chunkEntity = chunkRepository.save(chunkEntity);

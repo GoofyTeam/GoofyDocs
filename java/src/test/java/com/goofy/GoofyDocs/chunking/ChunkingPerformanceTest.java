@@ -39,7 +39,7 @@ public class ChunkingPerformanceTest {
     }
 
     @BeforeEach
-    void setUp() throws NoSuchAlgorithmException, IOException {
+    void setup() throws NoSuchAlgorithmException, IOException {
         chunkingService = new ChunkingService();
         System.out.println("Searching for files in: " + PROJECT_ROOT);
 
@@ -109,23 +109,12 @@ public class ChunkingPerformanceTest {
         File file = TEST_FILES_DIR.resolve(fileName).toFile();
 
         switch (fileType) {
-            case "Text":
-                createTextFile(file, sizeMB);
-                break;
-            case "CSV":
-                createCsvFile(file, sizeMB);
-                break;
-            case "Log":
-                createLogFile(file, sizeMB);
-                break;
-            case "Binary":
-                createBinaryFile(file, sizeMB);
-                break;
-            case "Archive":
-                createZipFile(file, sizeMB);
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported file type: " + fileType);
+            case "Text" -> createTextFile(file, sizeMB);
+            case "CSV" -> createCsvFile(file, sizeMB);
+            case "Log" -> createLogFile(file, sizeMB);
+            case "Binary" -> createBinaryFile(file, sizeMB);
+            case "Archive" -> createZipFile(file, sizeMB);
+            default -> throw new IllegalArgumentException("Unsupported file type: " + fileType);
         }
         return file;
     }

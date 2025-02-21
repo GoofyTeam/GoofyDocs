@@ -38,7 +38,7 @@ class DuplicationPerformanceTest {
     private ChunkingService chunkingService;
 
     @BeforeEach
-    void setUp() throws NoSuchAlgorithmException {
+    void setup() throws NoSuchAlgorithmException {
         chunkingService = new ChunkingService();
         duplicationService = new DuplicationService(chunkingService);
     }

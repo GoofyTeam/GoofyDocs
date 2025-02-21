@@ -1,10 +1,11 @@
 package com.goofy.GoofyDocs.compression;
 
 import java.nio.ByteBuffer;
-import org.springframework.stereotype.Service;
-import org.xerial.snappy.Snappy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.xerial.snappy.Snappy;
 
 import com.github.luben.zstd.Zstd;
 
@@ -87,7 +88,7 @@ public class CompressionService {
                     originalLength, compressedLength);
 
             return lz4Decompressor.decompress(compressedOnly, originalLength);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             logger.error("Error during LZ4 decompression", e);
             throw e;
         }

@@ -1,16 +1,20 @@
 package com.goofy.GoofyDocs.compression;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.util.StopWatch;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CompressionPerformanceTest {
 
@@ -23,7 +27,7 @@ public class CompressionPerformanceTest {
     };
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         compressionService = new CompressionService();
     }
 
