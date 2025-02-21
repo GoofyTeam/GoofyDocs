@@ -25,6 +25,7 @@ public class ChunkingController {
     public ChunkingController(ChunkingService chunkingService) {
         this.chunkingService = chunkingService;
     }
+
     @PostMapping("/analyze")
     public ResponseEntity<?> analyzeFile(@RequestParam("file") MultipartFile file) {
         try {
@@ -34,12 +35,11 @@ public class ChunkingController {
             List<Chunk> chunks = chunkingService.chunkFile(tempFile);
 
             Map<String, Object> stats = Map.of(
-                "fileName", file.getOriginalFilename(),
-                "originalSize", file.getSize(),
-                "numberOfChunks", chunks.size(),
-                "averageChunkSize", file.getSize() / chunks.size(),
-                "uniqueChunks", chunks.stream().map(Chunk::getHash).distinct().count()
-            );
+                    "fileName", file.getOriginalFilename(),
+                    "originalSize", file.getSize(),
+                    "numberOfChunks", chunks.size(),
+                    "averageChunkSize", file.getSize() / chunks.size(),
+                    "uniqueChunks", chunks.stream().map(Chunk::getHash).distinct().count());
 
             Files.delete(tempFile.toPath());
 

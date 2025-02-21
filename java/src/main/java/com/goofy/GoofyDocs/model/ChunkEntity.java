@@ -40,7 +40,9 @@ public class ChunkEntity {
   @Column(name = "compression_type")
   private String compressionType;
 
-  // Getters and setters
+  @Column(name = "original_size")
+  private Integer originalSize;
+
   public Long getId() {
     return id;
   }
@@ -95,5 +97,13 @@ public class ChunkEntity {
 
   public void setCompressionType(String compressionType) {
     this.compressionType = compressionType;
+  }
+
+  public Integer getOriginalSize() {
+    return originalSize;
+  }
+
+  public void setOriginalSize(Integer originalSize) {
+    this.originalSize = originalSize;
   }
 }

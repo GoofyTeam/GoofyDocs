@@ -13,7 +13,6 @@ public class GoofyDocsApplication {
         SpringApplication.run(GoofyDocsApplication.class, args);
     }
 
-    // Mapping de la racine pour afficher "Hello, World!"
     @GetMapping("/")
     public String helloWorld() {
         return "Hello, World!";
